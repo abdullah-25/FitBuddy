@@ -1,0 +1,46 @@
+@use "../../styles/colors" as *;
+@use "../../styles/partials" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  //display: flex;
+  background-color: white;
+  padding-top: 1.5rem;
+  border-bottom: 0.1rem solid grey;
+  &__top {
+    display: flex;
+    width: 100%;
+    padding-bottom: 1.5rem;
+  }
+  &__logoheader {
+  }
+
+  &__profile {
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: #e1e1e1;
+    border-radius: 50%;
+    margin-left: 1rem;
+    margin-right: 4rem;
+  }
+  &__logoheader {
+    width: 150px;
+  }
+  &__links {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+
+    &--dashboard {
+      text-decoration: underline;
+      text-decoration-color: teal;
+    }
+    :hover {
+      text-decoration: underline;
+      text-decoration-color: teal;
+    }
+  }
+}

@@ -1,12 +1,23 @@
-import { useState } from "react";
+import GetStarted from "./components/GetStarted/GetStarted";
+import SignUp from "./components/SignUp/SignUp";
+import * as React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UserProfile from "./components/UserProfile/UserProfile";
+import Workout from "./components/Workout/Workout";
 
 function App() {
   return (
-    <>
-      <div>
-        <h1>FitBuddy!!!!</h1>
-      </div>
-    </>
+    <ChakraProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<GetStarted />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/user" element={<UserProfile />} />
+          <Route path="/user/workout" element={<Workout />} />
+        </Routes>
+      </BrowserRouter>
+    </ChakraProvider>
   );
 }
 
