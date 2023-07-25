@@ -12,11 +12,20 @@
   &__heading {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    text-align: center;
   }
 
   &__btns {
     display: flex;
-    justify-content: space-between;
+
+    &--discard {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.chakra-modal__content {
+  &.css-pv22qu {
+    margin-top: 20rem;
+    width: 80%;
   }
 }
