@@ -20,9 +20,20 @@
       padding-right: 2rem;
     }
   }
-  &__userinput {
+  &__userinputunchecked {
     display: flex;
     justify-content: space-between;
+  }
+  &__userinputchecked {
+    display: flex;
+    justify-content: space-between;
+    background: #90e4c1;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding: 0.5rem 0.5rem;
+
+    border-radius: 1rem;
   }
 }
 

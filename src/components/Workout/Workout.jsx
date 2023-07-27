@@ -152,7 +152,7 @@ export default function Workout() {
         </div>
         <div className="workout__background">
           {exerciseList.map((item) => {
-            return <Exercise name={item} />;
+            return <Exercise name={item} exerciseList={exerciseList} />;
           })}
         </div>
       </div>
