@@ -21,11 +21,18 @@
       margin-right: 2rem;
     }
   }
+  &__background {
+    background-color: grayscale($color: #f1eaea);
+    width: 100%;
+    // padding: 2rem 2rem;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+  }
 }
 
 .chakra-modal__content {
   &.css-pv22qu {
     margin-top: 20rem;
-    width: 80%;
+    width: 10rem;
   }
 }

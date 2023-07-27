@@ -1,9 +1,8 @@
-import { Button, ButtonGroup } from "@chakra-ui/react";
 import {
-  useControllableProp,
   useControllableState,
   useDisclosure,
   Input,
+  Button,
   Text,
 } from "@chakra-ui/react";
 
@@ -17,29 +16,39 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
+import { useState } from "react";
+
 import Header from "../../components/Header/Header";
 import "./Workout.scss";
 import Exercise from "../Exercise/Exercise";
+
+const initialExerciseList = [];
 
 export default function Workout() {
   const [startWorkoutBtnClick, setstartWorkoutBtnClick] =
     useControllableState(false);
   const [nameExcercise, setNameExcercise] = useControllableState("");
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
-
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
+
+  const [exerciseList, setExerciseList] = useState(initialExerciseList);
 
   function handleNameExcercise(e) {
     const name = e.target.value;
     setNameExcercise(name);
   }
+
   function handleSavebtn() {
     setDisplayExcercise(!displayExcercise);
-    console.log("save");
+    setExerciseList([...exerciseList, nameExcercise]);
   }
   function SaveWorkout() {
     setstartWorkoutBtnClick(!startWorkoutBtnClick);
+  }
+  function discardWorkout() {
+    alert("Do you want to discard your session?");
+    setExerciseList([]);
   }
 
   function handleAddExcercise() {
@@ -118,6 +127,7 @@ export default function Workout() {
             <Button
               onClick={() => {
                 SaveWorkout();
+                discardWorkout();
               }}
               colorScheme="teal"
               size="md"
@@ -137,9 +147,14 @@ export default function Workout() {
               Start Workout
             </Button>
           )}
+
           {startWorkoutBtnClick && handleAddExcercise()}
         </div>
-        {displayExcercise ? <Exercise name={nameExcercise} /> : <></>}
+        <div className="workout__background">
+          {exerciseList.map((item) => {
+            return <Exercise name={item} />;
+          })}
+        </div>
       </div>
     </>
   );
