@@ -1,0 +1,10 @@
+@use "../../styles/colors" as *;
+@use "../../styles/partials" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.chart-container {
+  width: 100%;
+}

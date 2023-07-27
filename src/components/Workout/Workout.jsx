@@ -19,19 +19,29 @@ import {
 
 import Header from "../../components/Header/Header";
 import "./Workout.scss";
+import Exercise from "../Exercise/Exercise";
 
 export default function Workout() {
   const [startWorkoutBtnClick, setstartWorkoutBtnClick] =
     useControllableState(false);
   const [nameExcercise, setNameExcercise] = useControllableState("");
-  const handleNameExcercise = (e) => setNameExcercise(e.target.value);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [displayExcercise, setDisplayExcercise] = useControllableState(false);
+
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
 
+  function handleNameExcercise(e) {
+    const name = e.target.value;
+    setNameExcercise(name);
+  }
+  function handleSavebtn() {
+    setDisplayExcercise(!displayExcercise);
+    console.log("save");
+  }
   function SaveWorkout() {
     setstartWorkoutBtnClick(!startWorkoutBtnClick);
   }
+
   function handleAddExcercise() {
     return (
       <>
@@ -82,7 +92,15 @@ export default function Workout() {
               <Button colorScheme="teal" mr={3} onClick={modal2.onClose}>
                 Cancel
               </Button>
-              <Button variant="ghost">Save</Button>
+              <Button
+                onClick={() => {
+                  modal2.onClose();
+                  handleSavebtn();
+                }}
+                variant="ghost"
+              >
+                Save
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
@@ -121,6 +139,7 @@ export default function Workout() {
           )}
           {startWorkoutBtnClick && handleAddExcercise()}
         </div>
+        {displayExcercise ? <Exercise name={nameExcercise} /> : <></>}
       </div>
     </>
   );

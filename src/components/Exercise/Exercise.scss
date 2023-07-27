@@ -1,0 +1,32 @@
+@use "../../styles/colors" as *;
+@use "../../styles/partials" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.exercise-container {
+  background-color: grayscale($color: #f1eaea);
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 1rem;
+
+  &__heading {
+    display: flex;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    &--name {
+      padding-right: 2rem;
+    }
+  }
+  &__userinput {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.chakra-numberinput__field {
+  &.css-bjn565 {
+  }
+}
