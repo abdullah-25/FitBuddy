@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
+import SaveBtn from "../SaveBtn/SaveBtn";
 
 import Header from "../../components/Header/Header";
 import "./Workout.scss";
@@ -29,6 +30,8 @@ export default function Workout() {
     useControllableState(false);
   const [nameExcercise, setNameExcercise] = useControllableState("");
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
+  const [showSaveButton, setShowSaveButton] = useState(false);
+
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
 
@@ -49,6 +52,15 @@ export default function Workout() {
   function discardWorkout() {
     alert("Do you want to discard your session?");
     setExerciseList([]);
+  }
+  function SaveWorkoutSession() {
+    alert("Your Workout session is saved!!");
+    setExerciseList([]);
+    handleCheckIconClick();
+  }
+
+  function handleCheckIconClick() {
+    setShowSaveButton(!showSaveButton);
   }
 
   function handleAddExcercise() {
@@ -150,9 +162,17 @@ export default function Workout() {
 
           {startWorkoutBtnClick && handleAddExcercise()}
         </div>
+        {showSaveButton && <SaveBtn SaveWorkoutSession={SaveWorkoutSession} />}
         <div className="workout__background">
           {exerciseList.map((item) => {
-            return <Exercise name={item} exerciseList={exerciseList} />;
+            return (
+              <Exercise
+                name={item}
+                exerciseList={exerciseList}
+                onCheckIconClick={handleCheckIconClick}
+                SaveWorkoutSession={SaveWorkoutSession}
+              />
+            );
           })}
         </div>
       </div>
