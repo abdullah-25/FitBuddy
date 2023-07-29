@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import { Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../components/Chart/Chart.scss";
@@ -29,7 +30,7 @@ import "../../components/Chart/Chart.scss";
 //   },
 // ];
 
-export default function Chart() {
+export default function Chart({ exerciseOptions, selectedExercise, onChange }) {
   const [data, setData] = useState([]);
 
   function handleData(r) {
@@ -62,6 +63,24 @@ export default function Chart() {
 
   return (
     <div className="chart-container">
+      <Select placeholder="Select option">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </Select>
+      {/* <Select
+        placeholder="Select Exercise"
+        className="select"
+        value={selectedExercise}
+        onChange={onChange}
+      >
+        {exerciseOptions.map((exerciseName) => (
+          <option key={exerciseName} value={exerciseName}>
+            {exerciseName}
+          </option>
+        ))}
+      </Select> */}
+
       <AreaChart
         width={400}
         height={400}

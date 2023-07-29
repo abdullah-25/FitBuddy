@@ -17,11 +17,14 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 import SaveBtn from "../SaveBtn/SaveBtn";
 
 import Header from "../../components/Header/Header";
 import "./Workout.scss";
 import Exercise from "../Exercise/Exercise";
+import Chart from "../Chart/Chart";
 
 const initialExerciseList = [];
 
@@ -36,6 +39,13 @@ export default function Workout() {
   const modal2 = useDisclosure();
 
   const [exerciseList, setExerciseList] = useState(initialExerciseList);
+  const [result, setResult] = useState([]);
+  let updatedResult = [];
+  const exerciseOptions = Object.keys(result);
+  const [selectedExercise, setSelectedExercise] = useState("");
+  const handleExerciseChange = (event) => {
+    setSelectedExercise(event.target.value);
+  };
 
   function handleNameExcercise(e) {
     const name = e.target.value;
@@ -45,7 +55,9 @@ export default function Workout() {
   function handleSavebtn() {
     setDisplayExcercise(!displayExcercise);
     setExerciseList([...exerciseList, nameExcercise]);
+    console.log(nameExcercise);
   }
+
   function SaveWorkout() {
     setstartWorkoutBtnClick(!startWorkoutBtnClick);
   }
@@ -55,10 +67,40 @@ export default function Workout() {
   }
   function SaveWorkoutSession() {
     alert("Your Workout session is saved!!");
-    setExerciseList([]);
+    handleResultObject(result);
     handleCheckIconClick();
   }
 
+  function handleResultObject(result) {
+    updatedResult = { ...result };
+    Object.keys(updatedResult).forEach(function (exercise) {
+      //name, result[name]
+      //store key in seperate array
+      //store max value of array in each object
+      const maxWeight = Math.max(...updatedResult[exercise]);
+      updatedResult[exercise] = maxWeight;
+      return updatedResult;
+    });
+    setResult(updatedResult);
+
+    //add buttons based on key names
+
+    //send post request to update exercise
+    axios
+      .post(`http://localhost:8080/api/exercises`, {
+        users_id: 1,
+        exercise_name: exerciseOptions,
+      })
+      .then(() => {
+        Navigate("/user");
+      })
+      .catch(({ response }) => {
+        console.log(`Error! ${response.data}`);
+      });
+  }
+
+  console.log("updated result:", result);
+  console.log("updated Exercises:", exerciseOptions);
   function handleCheckIconClick() {
     setShowSaveButton(!showSaveButton);
   }
@@ -171,6 +213,8 @@ export default function Workout() {
                 exerciseList={exerciseList}
                 onCheckIconClick={handleCheckIconClick}
                 SaveWorkoutSession={SaveWorkoutSession}
+                result={result}
+                setResult={setResult}
               />
             );
           })}

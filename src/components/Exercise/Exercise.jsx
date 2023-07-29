@@ -1,7 +1,6 @@
 import { Button, useControllableState } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import "../../components/Exercise/Exercise.scss";
 import ExerciseInputField from "../ExerciseInputField/ExerciseInputField";
@@ -13,11 +12,10 @@ export default function Exercise({
   exerciseList,
   onCheckIconClick,
   SaveWorkoutSession,
+  result,
+  setResult,
 }) {
   const [deleteClicked, setDeleteClicked] = useControllableState(false);
-  const [visibleExercises, setVisibleExercises] = useState([
-    { id: uuidv4(), isVisible: true },
-  ]);
 
   const [exerciseSetList, setExerciseSetList] = useState(
     initialExerciseSetList
@@ -55,6 +53,9 @@ export default function Exercise({
           <ExerciseInputField
             onCheckIconClick={onCheckIconClick}
             SaveWorkoutSession={SaveWorkoutSession}
+            result={result}
+            setResult={setResult}
+            name={name}
           />
         );
       })}

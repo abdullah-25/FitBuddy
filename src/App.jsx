@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<GetStarted />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/user" element={<UserProfile />} />
-          <Route path="/user/workout" element={<Workout />} />
+          <Route path="/user/workout/1" element={<Workout />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

@@ -11,31 +11,37 @@ import { MinusIcon, CheckIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import Exercise from "../Exercise/Exercise";
 
-export default function ({ onCheckIconClick, SaveWorkoutSession }) {
-  const [weight, setWeight] = useControllableState(0);
+export default function ({
+  onCheckIconClick,
+  SaveWorkoutSession,
+  result,
+  setResult,
+  name,
+}) {
+  const [weight, setWeight] = useControllableState([]);
   const [userinput, setUserInput] = useState(true);
   const [displaySavebtn, setDisplaySavebtn] = useState(false);
-  const [weightArray, setWeightArray] = useState([]);
+  const [weightInputs, setWeightInputs] = useState([]);
+  const [currentWeight, setCurrentWeight] = useState();
 
   function handleWeightInput(value) {
-    setWeight(value);
+    setCurrentWeight(value);
   }
 
-  function handleMinusIcon() {
+  function handleMinusIcon(index) {
     setUserInput(true);
   }
 
   function handleCheckIcon() {
+    setResult((prevResult) => ({
+      ...prevResult,
+      [name]: [...(prevResult[name] || []), currentWeight],
+    }));
     setUserInput(false);
     setDisplaySavebtn(true);
-    setWeightArray([...weightArray, weight]);
   }
 
-  useEffect(() => {
-    // Calculate maxWeight whenever weightArray changes
-    const maxWeight = Math.max(...weightArray);
-    console.log("Maximum Weight:", maxWeight);
-  }, [weightArray]);
+  console.log(result);
 
   return (
     <div

@@ -7,4 +7,14 @@
 
 .chart-container {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.chakra-select {
+  &.css-161pkch {
+    display: flex;
+    justify-content: center;
+  }
 }
