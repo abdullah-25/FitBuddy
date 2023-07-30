@@ -18,13 +18,12 @@ import {
 
 import { useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import SaveBtn from "../SaveBtn/SaveBtn";
 
 import Header from "../../components/Header/Header";
 import "./Workout.scss";
 import Exercise from "../Exercise/Exercise";
-import Chart from "../Chart/Chart";
 
 const initialExerciseList = [];
 
@@ -40,8 +39,11 @@ export default function Workout() {
 
   const [exerciseList, setExerciseList] = useState(initialExerciseList);
   const [result, setResult] = useState([]);
-  let updatedResult = [];
+
   const exerciseOptions = Object.keys(result);
+  const params = useParams();
+  let { id } = params;
+
   const [selectedExercise, setSelectedExercise] = useState("");
   const handleExerciseChange = (event) => {
     setSelectedExercise(event.target.value);
@@ -55,7 +57,6 @@ export default function Workout() {
   function handleSavebtn() {
     setDisplayExcercise(!displayExcercise);
     setExerciseList([...exerciseList, nameExcercise]);
-    console.log(nameExcercise);
   }
 
   function SaveWorkout() {
@@ -72,35 +73,99 @@ export default function Workout() {
   }
 
   function handleResultObject(result) {
-    updatedResult = { ...result };
+    const updatedResult = { ...result };
     Object.keys(updatedResult).forEach(function (exercise) {
-      //name, result[name]
-      //store key in seperate array
-      //store max value of array in each object
       const maxWeight = Math.max(...updatedResult[exercise]);
       updatedResult[exercise] = maxWeight;
-      return updatedResult;
     });
     setResult(updatedResult);
+    PostExercises(exerciseOptions);
+    PostMaxWeight(result);
+  }
 
-    //add buttons based on key names
+  function PostMaxWeight(result) {
+    Object.keys(result).forEach(function (key) {
+      const findId = { users_id: 1, exercise_name: key };
+      const max_weight = parseInt(result[key]);
 
-    //send post request to update exercise
-    axios
-      .post(`http://localhost:8080/api/exercises`, {
-        users_id: 1,
-        exercise_name: exerciseOptions,
+      axios
+        .put("http://localhost:8080/api/exercises/id", findId)
+        .then((createResponse) => {
+          // const { message } = createResponse.data;
+          console.log("Important!!!!", createResponse.data);
+          const data = createResponse.data;
+
+          const objToSend = {
+            exercises_id: data.exercises_id,
+            max_weight: max_weight,
+          };
+          console.log("Data to send to server:", objToSend);
+
+          axios
+            .post("http://localhost:8080/api/max", objToSend)
+            .then((response) => {
+              console.log("Data sent to server:", response.data);
+            })
+            .catch((error) => {
+              console.log(`Error sending data to server: ${error.message}`);
+            });
+        })
+        .catch((error) => {
+          console.log(`Error finding ID: ${error.message}`);
+        });
+    });
+  }
+
+  // Function to update the max weight in the backend
+  function updateWeight(exercises_id, max_weight) {
+    return axios
+      .post("http://localhost:8080/api/max", {
+        exercises_id,
+        max_weight,
       })
-      .then(() => {
-        Navigate("/user");
+      .then((updateMaxWeightResponse) => {
+        console.log("Max weight updated:", updateMaxWeightResponse.data);
       })
-      .catch(({ response }) => {
-        console.log(`Error! ${response.data}`);
+      .catch((error) => {
+        console.log("Error updating max weight:", error.message);
+      });
+  }
+  function findExerciseId(users_id, exercise_name) {
+    return axios
+      .post("http://localhost:8080/api/exercises/id", {
+        users_id,
+        exercise_name,
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log("Error getting exercise ID:", error.message);
       });
   }
 
-  console.log("updated result:", result);
-  console.log("updated Exercises:", exerciseOptions);
+  // Updated PostExercises function
+  function PostExercises(exerciseOptions, result) {
+    exerciseOptions.forEach((exercise) => {
+      const exerciseObject = {
+        users_id: 1,
+        exercise_name: exercise,
+      };
+
+      axios
+        .post("http://localhost:8080/api/exercises", exerciseObject)
+        .then((createResponse) => {
+          const { message } = createResponse.data;
+          console.log("post request message from exercise", message);
+        })
+        .catch((error) => {
+          console.log(
+            `Error inserting exercise "${exercise}": ${error.message}`
+          );
+        });
+    });
+  }
+
   function handleCheckIconClick() {
     setShowSaveButton(!showSaveButton);
   }

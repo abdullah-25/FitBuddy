@@ -41,8 +41,6 @@ export default function ({
     setDisplaySavebtn(true);
   }
 
-  console.log(result);
-
   return (
     <div
       className={

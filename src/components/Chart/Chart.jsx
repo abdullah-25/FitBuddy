@@ -36,21 +36,22 @@ export default function Chart({ exerciseOptions, selectedExercise, onChange }) {
   function handleData(r) {
     const some = r.map((item) => {
       const originalDate = new Date(item.created_at);
-
       const options = { month: "long", day: "numeric" };
       const formatter = new Intl.DateTimeFormat("en-US", options);
       const formattedDate = formatter.format(originalDate);
-      return { name: formattedDate, uv: item.max_weight };
+      return { name: formattedDate, max_weight: item.max_weight };
     });
 
     return some;
   }
+  function displayGraph() {}
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/max")
       .then((response) => {
         setData(handleData(response.data));
+        console.log(response.data);
       })
       .catch((response) => {
         console.log(response);
@@ -64,9 +65,7 @@ export default function Chart({ exerciseOptions, selectedExercise, onChange }) {
   return (
     <div className="chart-container">
       <Select placeholder="Select option">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+        <option value="option1">Bench Press</option>
       </Select>
       {/* <Select
         placeholder="Select Exercise"
