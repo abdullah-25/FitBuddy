@@ -18,10 +18,10 @@ import {
 
 import { useState } from "react";
 import axios from "axios";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SaveBtn from "../SaveBtn/SaveBtn";
 
-import Header from "../../components/Header/Header";
+import DarkModeNavBar from "../../components/DarkModeNavBar/DarkModeNavBar";
 import "./Workout.scss";
 import Exercise from "../Exercise/Exercise";
 
@@ -238,7 +238,7 @@ export default function Workout() {
 
   return (
     <>
-      <Header />
+      <DarkModeNavBar />
       <div className="workout">
         <div className="workout__heading">Workout</div>
         <div className="workout__btns">

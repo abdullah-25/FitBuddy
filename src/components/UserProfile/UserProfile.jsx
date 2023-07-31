@@ -1,9 +1,9 @@
-import Header from "../Header/Header";
+import DarkModeNavBar from "../DarkModeNavBar/DarkModeNavBar";
 import Chart from "../../components/Chart/Chart";
 export default function UserProfile() {
   return (
     <div>
-      <Header />
+      <DarkModeNavBar />
       <Chart />
     </div>
   );
