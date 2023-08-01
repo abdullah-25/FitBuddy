@@ -32,7 +32,7 @@ import "../../components/Chart/Chart.scss";
 //   },
 // ];
 
-export default function Chart() {
+export default function Chart({ user }) {
   const [data, setData] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState("");
   const [ExercisesArray, setResultUserExercisesArray] = useState([]);
@@ -57,7 +57,7 @@ export default function Chart() {
     const findId = { users_id: 1, exercise_name: selectedExercise };
 
     axios
-      .put("http://localhost:8080/api/exercises/id", findId)
+      .put(`http://localhost:8080/api/exercises`, findId)
       .then((response) => {
         let ExerciseID = Object.values(response.data)[1];
         axios
@@ -78,7 +78,7 @@ export default function Chart() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/max")
+      .get(`http://localhost:8080/api/max`)
       .then((response) => {
         //trigger function that filters based on exercise id
         graphFilter(response.data, 78);
@@ -100,7 +100,7 @@ export default function Chart() {
 
   if (data.length === 0) {
     return (
-      <>
+      <div align={"center"}>
         <Spinner
           thickness="4px"
           speed="0.65s"
@@ -108,7 +108,7 @@ export default function Chart() {
           color="teal.500"
           size="xl"
         />
-      </>
+      </div>
     );
   }
 

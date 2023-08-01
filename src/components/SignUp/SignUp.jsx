@@ -13,12 +13,31 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { React, useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase/Firebase"; // Import the Auth module for authentication features
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleSignUp(e) {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log(userCredentials);
+        axios.post("http://localhost:8080/signup", {
+          email: user.email,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <Flex
@@ -59,12 +78,22 @@ export default function Signup() {
             </HStack>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input
+                type="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -87,6 +116,7 @@ export default function Signup() {
                   _hover={{
                     bg: "teal.500",
                   }}
+                  onClick={handleSignUp()}
                 >
                   Sign up
                 </Button>
@@ -94,7 +124,10 @@ export default function Signup() {
             </Link>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"teal.400"}>Login</Link>
+                Already a user?{" "}
+                <Link to="/signin" color={"teal.400"}>
+                  Login
+                </Link>
               </Text>
             </Stack>
           </Stack>

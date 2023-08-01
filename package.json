@@ -20,6 +20,8 @@
     "axios": "^1.4.0",
     "chart.js": "^4.3.2",
     "faker": "^6.6.6",
+    "firebase": "^10.1.0",
+    "firebaseui": "^6.0.2",
     "framer-motion": "^10.13.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

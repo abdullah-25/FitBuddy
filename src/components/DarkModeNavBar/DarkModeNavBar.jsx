@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
 const NavLink = ({ children }) => {
   return (
@@ -40,6 +41,19 @@ const NavLink = ({ children }) => {
 export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const auth = getAuth();
+
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        // setUser(null);
+        console.log("Sign out successfull!!!");
+      })
+      .catch((error) => {
+        console.log("Sign-out error:", error);
+      });
+  }
+
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
@@ -86,7 +100,10 @@ export default function Nav() {
                   <MenuItem>Add Workout Sessions</MenuItem>
                 </Link>
 
-                <MenuItem>Logout</MenuItem>
+                <button onClick={handleSignOut}>
+                  {" "}
+                  <MenuItem>Logout</MenuItem>
+                </button>
               </MenuList>
             </Menu>
           </Stack>
