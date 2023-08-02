@@ -27,16 +27,11 @@ export default function SignIn() {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        // setUser(userCredentials.user);
-        console.log("user credientials", userCredentials);
         navigate("/user");
       })
       .catch((error) =>
         console.log("Sign-in error: ", error.message, error.code)
       );
-    // {
-    //   user ? Navigate("/user") : "";
-    // }
   }
   return (
     <div>

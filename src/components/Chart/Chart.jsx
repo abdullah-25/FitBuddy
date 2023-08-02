@@ -46,7 +46,6 @@ export default function Chart({ user }) {
         .post("http://localhost:8080/userid", data)
         .then((resp) => {
           setUserID(resp.data.id);
-          console.log("response is:", resp.data.id);
         })
         .catch((err) => {
           console.log(err);
@@ -67,7 +66,6 @@ export default function Chart({ user }) {
 
   useEffect(() => {
     if (!!userID) {
-      console.log("user id is: ", userID);
       userExerciseArray(userID);
       handleSelect();
     }
@@ -162,8 +160,6 @@ export default function Chart({ user }) {
           fill="#008080"
         />
       </AreaChart>
-
-      {/* Add the ShareButton component */}
 
       <div className="data-insights">
         <p>Average Weight: {getAverageWeight()} lbs</p>

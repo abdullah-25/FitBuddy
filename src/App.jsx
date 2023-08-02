@@ -21,9 +21,6 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  console.log("user?", !!user);
-  //console.log("id:", user.uid);
-
   if (user === undefined) {
     return <h1>Loading!!!!</h1>;
   }

@@ -4,17 +4,28 @@
 * {
   box-sizing: border-box;
 }
+/* GetStarted.scss */
+
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 18rem;
+  justify-content: center;
+  height: 100vh;
+  background: white;
+  //background: linear-gradient(to bottom right, #00b4d8, #48cae4);
+}
 
-  &__img {
-    width: 100%;
-    padding-bottom: 3rem;
+.container__img {
+  width: 200px;
+  animation: logoAnimation 2s infinite alternate;
+}
+
+@keyframes logoAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
   }
 }

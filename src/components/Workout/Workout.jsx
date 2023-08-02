@@ -121,14 +121,13 @@ export default function Workout({ user }) {
         .put(`http://localhost:8080/api/exercises/${userID}`, findId)
         .then((createResponse) => {
           // const { message } = createResponse.data;
-          console.log("Important!!!!", createResponse.data);
+
           const data = createResponse.data;
 
           const objToSend = {
             exercises_id: data.exercises_id,
             max_weight: max_weight,
           };
-          console.log("Data to send to server:", objToSend);
 
           axios
             .post("http://localhost:8080/api/max", objToSend)
@@ -186,11 +185,10 @@ export default function Workout({ user }) {
       axios
         .post("http://localhost:8080/api/exercises", exerciseObject)
         .then((createResponse) => {
-          const { message } = createResponse.data;
-          console.log("post request message from exercise", message);
           PostMaxWeight(result);
         })
         .catch((error) => {
+          PostMaxWeight(result);
           console.log(
             `Error inserting exercise "${exercise}": ${error.message}`
           );
