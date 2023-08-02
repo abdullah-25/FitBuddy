@@ -43,7 +43,10 @@ export default function Chart({ user }) {
     if (!!user) {
       console.log("user?", !!user);
       axios
-        .post("http://localhost:8080/userid", data)
+        .post(
+          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/userid",
+          data
+        )
         .then((resp) => {
           setUserID(resp.data.id);
         })
@@ -75,7 +78,10 @@ export default function Chart({ user }) {
     //update users_id to be dynamic
     const findId = { users_id: userID, exercise_name: selectedExercise };
     axios
-      .put(`http://localhost:8080/api/exercises/${findId.users_id}`, findId)
+      .put(
+        `https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises/${findId.users_id}`,
+        findId
+      )
       .then((response) => {
         let ExerciseID = Object.values(response.data)[1];
         axios
@@ -95,13 +101,15 @@ export default function Chart({ user }) {
   }
 
   function userExerciseArray(user_id) {
-    axios.get("http://localhost:8080/api/exercises").then((response) => {
-      let result = response.data
-        .filter((obj) => obj.users_id === user_id)
-        .map((item) => item.exercise_name);
+    axios
+      .get("https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises")
+      .then((response) => {
+        let result = response.data
+          .filter((obj) => obj.users_id === user_id)
+          .map((item) => item.exercise_name);
 
-      setResultUserExercisesArray([...new Set(result)]);
-    });
+        setResultUserExercisesArray([...new Set(result)]);
+      });
   }
 
   function getAverageWeight() {

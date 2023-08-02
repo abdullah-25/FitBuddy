@@ -90,7 +90,10 @@ export default function Workout({ user }) {
       };
       console.log("user?", !!user);
       axios
-        .post("http://localhost:8080/userid", data)
+        .post(
+          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/userid",
+          data
+        )
         .then((resp) => {
           console.log(resp.data);
           setUserID(resp.data.id);
@@ -118,7 +121,10 @@ export default function Workout({ user }) {
       const max_weight = parseInt(result[key]);
 
       axios
-        .put(`http://localhost:8080/api/exercises/${userID}`, findId)
+        .put(
+          `https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises/${userID}`,
+          findId
+        )
         .then((createResponse) => {
           // const { message } = createResponse.data;
 
@@ -130,7 +136,10 @@ export default function Workout({ user }) {
           };
 
           axios
-            .post("http://localhost:8080/api/max", objToSend)
+            .post(
+              "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/max",
+              objToSend
+            )
             .then((response) => {
               console.log("Data sent to server:", response.data);
             })
@@ -183,7 +192,10 @@ export default function Workout({ user }) {
       console.log(exerciseObject);
 
       axios
-        .post("http://localhost:8080/api/exercises", exerciseObject)
+        .post(
+          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises",
+          exerciseObject
+        )
         .then((createResponse) => {
           PostMaxWeight(result);
         })
