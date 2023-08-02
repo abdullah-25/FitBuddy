@@ -41,14 +41,15 @@ The app will be running at `http://localhost:3000/`.
 1. Sign Up or Log In to your FitBuddy account.
 2. Start tracking your workouts by adding exercise details.
 3. View your workout progress on the interactive area charts.
-4. Share your progress via Twitter!
-5. Use the workout planner (planned feature) to receive personalized workout routines.
+4. Dark Mode feature!!!!!
+5. Share your progress via Twitter!
+6. Use the workout planner (planned feature) to receive personalized workout routines.
 
 
 ## Screen Shots
 
-<img width="376" alt="Screen Shot 2023-08-02 at 4 54 50 PM" src="https://github.com/abdullah-25/FitBuddy/assets/70604820/53e706bd-988c-45b6-8904-a5f3135a7bbb">
-<img width="376" alt="Screen Shot 2023-08-02 at 4 56 14 PM" src="https://github.com/abdullah-25/FitBuddy/assets/70604820/4e42e83e-f7d6-4675-aa6d-cf7850f5891f">
+<img width="376" height = "500" alt="Screen Shot 2023-08-02 at 4 54 50 PM" src="https://github.com/abdullah-25/FitBuddy/assets/70604820/53e706bd-988c-45b6-8904-a5f3135a7bbb">
+<img width="376" height = "500" alt="Screen Shot 2023-08-02 at 4 56 14 PM" src="https://github.com/abdullah-25/FitBuddy/assets/70604820/4e42e83e-f7d6-4675-aa6d-cf7850f5891f">
 
 ## Technologies Used
 
