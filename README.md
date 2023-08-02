@@ -11,6 +11,7 @@ FitBuddy is a workout tracker app that allows users to track their progress and 
 
 ## Getting Started
 
+
 ### Prerequisites
 
 - Node.js (v14 or higher)
@@ -41,6 +42,11 @@ The app will be running at `http://localhost:3000/`.
 3. View your workout progress on the interactive area charts.
 4. Share your progress via Twitter!
 5. Use the workout planner (planned feature) to receive personalized workout routines.
+
+
+## Screen Shots
+
+<img width="373" alt="Screen Shot 2023-08-02 at 4 54 50 PM" src="https://github.com/abdullah-25/FitBuddy/assets/70604820/53e706bd-988c-45b6-8904-a5f3135a7bbb">
 
 ## Technologies Used
 
