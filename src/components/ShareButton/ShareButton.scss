@@ -1,0 +1,11 @@
+@use "../../styles/colors" as *;
+@use "../../styles/partials" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.sharebtn {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

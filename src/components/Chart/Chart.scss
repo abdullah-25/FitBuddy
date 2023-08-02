@@ -6,7 +6,6 @@
 }
 
 .chart-container {
-  width: 100%;
   margin-top: 2rem;
   display: flex;
   justify-content: center;
@@ -22,7 +21,41 @@
   &__wrapper {
     &.css-42b2qy {
       width: 50%;
-      margin-left: 1rem;
+      //margin-left: 1rem;
     }
   }
+}
+.chart-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.data-insights {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.data-insights p {
+  margin: 5px;
+}
+
+/* Optional: Add some font and color styles */
+.data-insights p {
+  font-size: 16px;
+  color: #333;
+}
+
+.data-insights p:first-child {
+  font-weight: bold;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

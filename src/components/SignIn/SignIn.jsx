@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState, React } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../Firebase/Firebase"; // Import the Auth module for authentication features
@@ -20,6 +20,7 @@ import { auth } from "../../Firebase/Firebase"; // Import the Auth module for au
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
   function handleSignIn(e) {
     console.log("hi");
@@ -28,6 +29,7 @@ export default function SignIn() {
       .then((userCredentials) => {
         // setUser(userCredentials.user);
         console.log("user credientials", userCredentials);
+        navigate("/user");
       })
       .catch((error) =>
         console.log("Sign-in error: ", error.message, error.code)

@@ -5,37 +5,26 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 import { Spinner } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import React from "react";
 import "../../components/Chart/Chart.scss";
-
-// const data = [
-//   {
-//     name: "July 1st, 2023",
-//     uv: 10,
-//   },
-//   {
-//     name: "July 3rd, 2023",
-//     uv: 5,
-//   },
-//   {
-//     name: "July 5th, 2023",
-//     uv: 30,
-//   },
-//   {
-//     name: "July 6th, 2023",
-//     uv: 25,
-//   },
-// ];
+import ShareButton from "../../components/ShareButton/ShareButton";
+import * as htmlToImage from "html-to-image";
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 
 export default function Chart({ user }) {
   const [data, setData] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState("");
   const [ExercisesArray, setResultUserExercisesArray] = useState([]);
+  const [userID, setUserID] = useState(null);
+  const shareUrl = window.location.href;
+  const chartRef = React.createRef();
+
+  const name = user.email;
 
   function handleData(r) {
     const some = r.map((item) => {
@@ -47,17 +36,48 @@ export default function Chart({ user }) {
     });
     return some;
   }
+  function getUserId() {
+    const data = {
+      user_name: user.email,
+    };
+    if (!!user) {
+      console.log("user?", !!user);
+      axios
+        .post("http://localhost:8080/userid", data)
+        .then((resp) => {
+          setUserID(resp.data.id);
+          console.log("response is:", resp.data.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
 
   useEffect(() => {
-    handleSelect();
-    userExerciseArray(1);
-  }, [selectedExercise, selectedExercise]);
+    axios
+      .get(`http://localhost:8080/api/max`)
+      .then(() => {})
+      .catch((response) => {
+        console.log("Error:", response);
+      });
+
+    getUserId();
+  }, []);
+
+  useEffect(() => {
+    if (!!userID) {
+      console.log("user id is: ", userID);
+      userExerciseArray(userID);
+      handleSelect();
+    }
+  }, [selectedExercise, userID]);
 
   function handleSelect() {
-    const findId = { users_id: 1, exercise_name: selectedExercise };
-
+    //update users_id to be dynamic
+    const findId = { users_id: userID, exercise_name: selectedExercise };
     axios
-      .put(`http://localhost:8080/api/exercises`, findId)
+      .put(`http://localhost:8080/api/exercises/${findId.users_id}`, findId)
       .then((response) => {
         let ExerciseID = Object.values(response.data)[1];
         axios
@@ -76,18 +96,6 @@ export default function Chart({ user }) {
     setData(handleData(result));
   }
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/max`)
-      .then((response) => {
-        //trigger function that filters based on exercise id
-        graphFilter(response.data, 78);
-      })
-      .catch((response) => {
-        console.log("Error:", response);
-      });
-  }, []);
-
   function userExerciseArray(user_id) {
     axios.get("http://localhost:8080/api/exercises").then((response) => {
       let result = response.data
@@ -98,30 +106,31 @@ export default function Chart({ user }) {
     });
   }
 
-  if (data.length === 0) {
-    return (
-      <div align={"center"}>
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="teal.500"
-          size="xl"
-        />
-      </div>
-    );
+  function getAverageWeight() {
+    const totalWeight = data.reduce((acc, entry) => acc + entry.max_weight, 0);
+    const averageWeight = totalWeight / data.length;
+    return averageWeight.toFixed(2);
+  }
+
+  function getMinWeight() {
+    const minWeight = Math.min(...data.map((entry) => entry.max_weight));
+    return minWeight;
+  }
+
+  function getMaxWeight() {
+    const maxWeight = Math.max(...data.map((entry) => entry.max_weight));
+    return maxWeight;
   }
 
   return (
-    <div className="chart-container">
+    <div className="chart-container" ref={chartRef}>
       <Select
         value={selectedExercise}
         onChange={(e) => {
           setSelectedExercise(e.target.value);
-          console.log("Selected Exercise:", e.target.value);
         }}
         placeholder="Select an Exercise"
-        classNmae="chart-container__select"
+        className="chart-container__select"
       >
         {ExercisesArray.map((exerciseName) => (
           <option key={exerciseName} value={exerciseName}>
@@ -140,9 +149,10 @@ export default function Chart({ user }) {
           left: 0,
           bottom: 0,
         }}
+        className="chart"
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name"></XAxis>
         <YAxis />
         <Tooltip />
         <Area
@@ -152,6 +162,20 @@ export default function Chart({ user }) {
           fill="#008080"
         />
       </AreaChart>
+
+      {/* Add the ShareButton component */}
+
+      <div className="data-insights">
+        <p>Average Weight: {getAverageWeight()} lbs</p>
+        <p>Minimum Weight: {getMinWeight()} lbs</p>
+        <p>Maximum Weight: {getMaxWeight()} lbs</p>
+      </div>
+
+      <ShareButton
+        shareUrl={shareUrl}
+        quote="Check out my workout progress on FitBuddy!"
+        twitterMessage="Check out my workout progress on FitBuddy!"
+      />
     </div>
   );
 }

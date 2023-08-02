@@ -10,10 +10,11 @@ import Workout from "./components/Workout/Workout";
 import { auth } from "./Firebase/Firebase"; // Import your firebase authentication module
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   // Check if a user is already authenticated (e.g., on page reload)
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log("User", user);
       setUser(user);
     });
     // Unsubscribe the listener when the component unmounts
@@ -21,7 +22,12 @@ function App() {
   }, []);
 
   console.log("user?", !!user);
-  console.log("id:", user.uid);
+  //console.log("id:", user.uid);
+
+  if (user === undefined) {
+    return <h1>Loading!!!!</h1>;
+  }
+
   return (
     <ChakraProvider>
       <BrowserRouter>
@@ -37,7 +43,7 @@ function App() {
           ) : (
             <Route path="/user" element={<SignIn user={user} />} />
           )}
-          <Route path="/user/workout/1" element={<Workout />} />
+          <Route path="/user/workout/1" element={<Workout user={user} />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

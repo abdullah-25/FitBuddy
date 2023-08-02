@@ -16,7 +16,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import SaveBtn from "../SaveBtn/SaveBtn";
@@ -27,12 +27,13 @@ import Exercise from "../Exercise/Exercise";
 
 const initialExerciseList = [];
 
-export default function Workout() {
+export default function Workout({ user }) {
   const [startWorkoutBtnClick, setstartWorkoutBtnClick] =
     useControllableState(false);
   const [nameExcercise, setNameExcercise] = useControllableState("");
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
+  const [userID, setUserID] = useState(null);
 
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
@@ -79,17 +80,45 @@ export default function Workout() {
       updatedResult[exercise] = maxWeight;
     });
     setResult(updatedResult);
-    PostExercises(exerciseOptions);
-    PostMaxWeight(result);
+    PostExercises(exerciseOptions, result);
   }
+
+  function getUserId() {
+    if (!!user) {
+      const data = {
+        user_name: user.email,
+      };
+      console.log("user?", !!user);
+      axios
+        .post("http://localhost:8080/userid", data)
+        .then((resp) => {
+          console.log(resp.data);
+          setUserID(resp.data.id);
+          console.log("response is:", resp.data.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+  useEffect(() => {
+    getUserId();
+  }, [user]);
+
+  useEffect(() => {
+    if (userID) {
+    }
+    //move this function inside getUserID to pass in the correct ID
+  }, [selectedExercise, userID]);
 
   function PostMaxWeight(result) {
     Object.keys(result).forEach(function (key) {
-      const findId = { users_id: 1, exercise_name: key };
+      const findId = { users_id: userID, exercise_name: key };
       const max_weight = parseInt(result[key]);
 
       axios
-        .put("http://localhost:8080/api/exercises/id", findId)
+        .put(`http://localhost:8080/api/exercises/${userID}`, findId)
         .then((createResponse) => {
           // const { message } = createResponse.data;
           console.log("Important!!!!", createResponse.data);
@@ -116,47 +145,50 @@ export default function Workout() {
     });
   }
 
-  // Function to update the max weight in the backend
-  function updateWeight(exercises_id, max_weight) {
-    return axios
-      .post("http://localhost:8080/api/max", {
-        exercises_id,
-        max_weight,
-      })
-      .then((updateMaxWeightResponse) => {
-        console.log("Max weight updated:", updateMaxWeightResponse.data);
-      })
-      .catch((error) => {
-        console.log("Error updating max weight:", error.message);
-      });
-  }
-  function findExerciseId(users_id, exercise_name) {
-    return axios
-      .post("http://localhost:8080/api/exercises/id", {
-        users_id,
-        exercise_name,
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log("Error getting exercise ID:", error.message);
-      });
-  }
+  // // Function to update the max weight in the backend
+  // function updateWeight(exercises_id, max_weight) {
+  //   return axios
+  //     .post("http://localhost:8080/api/max", {
+  //       exercises_id,
+  //       max_weight,
+  //     })
+  //     .then((updateMaxWeightResponse) => {
+  //       console.log("Max weight updated:", updateMaxWeightResponse.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error updating max weight:", error.message);
+  //     });
+  // }
+  // function findExerciseId(users_id, exercise_name) {
+  //   return axios
+  //     .post("http://localhost:8080/api/exercises/id", {
+  //       users_id,
+  //       exercise_name,
+  //     })
+  //     .then((response) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error getting exercise ID:", error.message);
+  //     });
+  // }
 
   // Updated PostExercises function
   function PostExercises(exerciseOptions, result) {
     exerciseOptions.forEach((exercise) => {
       const exerciseObject = {
-        users_id: 1,
+        users_id: userID,
         exercise_name: exercise,
       };
+
+      console.log(exerciseObject);
 
       axios
         .post("http://localhost:8080/api/exercises", exerciseObject)
         .then((createResponse) => {
           const { message } = createResponse.data;
           console.log("post request message from exercise", message);
+          PostMaxWeight(result);
         })
         .catch((error) => {
           console.log(
