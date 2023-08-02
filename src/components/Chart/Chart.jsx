@@ -85,7 +85,7 @@ export default function Chart({ user }) {
       .then((response) => {
         let ExerciseID = Object.values(response.data)[1];
         axios
-          .get("http://localhost:8080/api/max")
+          .get("https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/max")
           .then((response) => {
             graphFilter(response.data, ExerciseID);
           })
