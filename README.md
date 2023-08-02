@@ -1,8 +1,68 @@
-# React + Vite
+# FitBuddy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FitBuddy is a workout tracker app that allows users to track their progress and visualize their workout data in the form of interactive charts. It helps users stay motivated and monitor their fitness journey effectively.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User Authentication: Users can sign up, log in, and access their personalized workout data securely.
+- Workout Tracking: Users can input their exercise details, such as exercise name and maximum weight lifted, to track their progress over time.
+- Interactive Charts: FitBuddy provides interactive area charts that visualize users' workout progress for each exercise.
+- Workout Planner (Planned Feature): A workout planner will suggest workout routines based on the user's fitness goals, whether it's weight loss, muscle gain, or general fitness.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+
+### Installation
+
+1. Clone the repository:
+
+git clone https://github.com/abdullah-25/FitBuddy.git
+cd FitBuddy
+
+2. Install the dependencies:
+   
+npm install
+
+3. Start the development server:
+
+npm start
+
+
+The app will be running at `http://localhost:3000/`.
+
+## Usage
+
+1. Sign Up or Log In to your FitBuddy account.
+2. Start tracking your workouts by adding exercise details.
+3. View your workout progress on the interactive area charts.
+4. Share your progress via Twitter!
+5. Use the workout planner (planned feature) to receive personalized workout routines.
+
+## Technologies Used
+
+- React.js: Frontend library for building user interfaces.
+- Chakra UI: A simple and modular component library for faster and easier web development.
+- Recharts: A charting library for React, providing interactive and responsive charts.
+- Node.js: JavaScript runtime for building server-side applications.
+- Express: Backend framework for building APIs and web applications.
+- Knex.js: SQL query builder for Node.js.
+- MySQL: Relational database for storing user data.
+- Firebase Authentication: Authentication service for user management and authentication.
+
+## Contributing
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+FitBuddy was developed as a personal project by Abdullah, inspired by the desire to help people achieve their fitness goals and lead a healthy lifestyle. Special thanks to the developers of the open-source libraries and tools used in this project.
+
+
