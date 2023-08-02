@@ -58,7 +58,7 @@ export default function Chart({ user }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/max`)
+      .get(`https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/max`)
       .then(() => {})
       .catch((response) => {
         console.log("Error:", response);

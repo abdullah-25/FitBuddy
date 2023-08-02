@@ -32,9 +32,12 @@ export default function Signup() {
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log(userCredentials);
-        axios.post("http://localhost:8080/signup", {
-          email: user.email,
-        });
+        axios.post(
+          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/signup",
+          {
+            email: user.email,
+          }
+        );
       })
       .catch((error) => console.log(error));
   }
