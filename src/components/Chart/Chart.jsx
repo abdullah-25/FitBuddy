@@ -22,6 +22,8 @@ export default function Chart({ user }) {
   const shareUrl = window.location.href;
   const chartRef = React.createRef();
 
+  const apikey = "https://mellow-capybara-8c39c8.netlify.app";
+
   const name = user.email;
 
   function handleData(r) {
@@ -41,7 +43,7 @@ export default function Chart({ user }) {
     if (!!user) {
       console.log("user?", !!user);
       axios
-        .post("http://localhost:8080/userid", data)
+        .post(`${apikey}/userid`, data)
         .then((resp) => {
           setUserID(resp.data.id);
         })
@@ -53,7 +55,7 @@ export default function Chart({ user }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/max`)
+      .get(`${apikey}/api/max`)
       .then(() => {})
       .catch((response) => {
         console.log("Error:", response);
@@ -73,11 +75,11 @@ export default function Chart({ user }) {
     //update users_id to be dynamic
     const findId = { users_id: userID, exercise_name: selectedExercise };
     axios
-      .put(`http://localhost:8080/api/exercises/${findId.users_id}`, findId)
+      .put(`${apikey}/api/exercises/${findId.users_id}`, findId)
       .then((response) => {
         let ExerciseID = Object.values(response.data)[1];
         axios
-          .get("http://localhost:8080/api/max")
+          .get(`${apikey}/api/max`)
           .then((response) => {
             graphFilter(response.data, ExerciseID);
           })
@@ -93,7 +95,7 @@ export default function Chart({ user }) {
   }
 
   function userExerciseArray(user_id) {
-    axios.get("http://localhost:8080/api/exercises").then((response) => {
+    axios.get(`${apikey}/api/exercises`).then((response) => {
       let result = response.data
         .filter((obj) => obj.users_id === user_id)
         .map((item) => item.exercise_name);

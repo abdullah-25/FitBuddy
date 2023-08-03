@@ -34,6 +34,7 @@ export default function Workout({ user }) {
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [userID, setUserID] = useState(null);
+  const apikey = "https://mellow-capybara-8c39c8.netlify.app";
 
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
@@ -90,7 +91,7 @@ export default function Workout({ user }) {
       };
       console.log("user?", !!user);
       axios
-        .post("http://localhost:8080/userid", data)
+        .post(`${apikey}/userid`, data)
         .then((resp) => {
           console.log(resp.data);
           setUserID(resp.data.id);
@@ -118,7 +119,7 @@ export default function Workout({ user }) {
       const max_weight = parseInt(result[key]);
 
       axios
-        .put(`http://localhost:8080/api/exercises/${userID}`, findId)
+        .put(`${apikey}/api/exercises/${userID}`, findId)
         .then((createResponse) => {
           // const { message } = createResponse.data;
 
@@ -130,7 +131,7 @@ export default function Workout({ user }) {
           };
 
           axios
-            .post("http://localhost:8080/api/max", objToSend)
+            .post(`${apikey}/api/max`, objToSend)
             .then((response) => {
               console.log("Data sent to server:", response.data);
             })
@@ -144,35 +145,6 @@ export default function Workout({ user }) {
     });
   }
 
-  // // Function to update the max weight in the backend
-  // function updateWeight(exercises_id, max_weight) {
-  //   return axios
-  //     .post("http://localhost:8080/api/max", {
-  //       exercises_id,
-  //       max_weight,
-  //     })
-  //     .then((updateMaxWeightResponse) => {
-  //       console.log("Max weight updated:", updateMaxWeightResponse.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error updating max weight:", error.message);
-  //     });
-  // }
-  // function findExerciseId(users_id, exercise_name) {
-  //   return axios
-  //     .post("http://localhost:8080/api/exercises/id", {
-  //       users_id,
-  //       exercise_name,
-  //     })
-  //     .then((response) => {
-  //       return response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error getting exercise ID:", error.message);
-  //     });
-  // }
-
-  // Updated PostExercises function
   function PostExercises(exerciseOptions, result) {
     exerciseOptions.forEach((exercise) => {
       const exerciseObject = {
@@ -183,7 +155,7 @@ export default function Workout({ user }) {
       console.log(exerciseObject);
 
       axios
-        .post("http://localhost:8080/api/exercises", exerciseObject)
+        .post(`${apikey}/api/exercises`, exerciseObject)
         .then((createResponse) => {
           PostMaxWeight(result);
         })
