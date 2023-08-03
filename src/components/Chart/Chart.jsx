@@ -22,7 +22,7 @@ export default function Chart({ user }) {
   const shareUrl = window.location.href;
   const chartRef = React.createRef();
 
-  const apikey = "https://mellow-capybara-8c39c8.netlify.app";
+  const apikey = "http://localhost:8080";
 
   const name = user.email;
 

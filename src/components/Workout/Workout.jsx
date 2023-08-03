@@ -34,7 +34,7 @@ export default function Workout({ user }) {
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [userID, setUserID] = useState(null);
-  const apikey = "https://mellow-capybara-8c39c8.netlify.app";
+  const apikey = "http://localhost:8080";
 
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
