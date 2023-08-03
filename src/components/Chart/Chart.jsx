@@ -13,8 +13,6 @@ import axios from "axios";
 import React from "react";
 import "../../components/Chart/Chart.scss";
 import ShareButton from "../../components/ShareButton/ShareButton";
-import * as htmlToImage from "html-to-image";
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 
 export default function Chart({ user }) {
   const [data, setData] = useState([]);
@@ -44,7 +42,7 @@ export default function Chart({ user }) {
       console.log("user?", !!user);
       axios
         .post(
-          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/userid",
+          "https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/userid",
           data
         )
         .then((resp) => {
@@ -58,7 +56,7 @@ export default function Chart({ user }) {
 
   useEffect(() => {
     axios
-      .get(`https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/max`)
+      .get(`https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/max`)
       .then(() => {})
       .catch((response) => {
         console.log("Error:", response);
@@ -69,6 +67,7 @@ export default function Chart({ user }) {
 
   useEffect(() => {
     if (!!userID) {
+      console.log("user id is:", userID);
       userExerciseArray(userID);
       handleSelect();
     }
@@ -79,13 +78,13 @@ export default function Chart({ user }) {
     const findId = { users_id: userID, exercise_name: selectedExercise };
     axios
       .put(
-        `https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises/${findId.users_id}`,
+        `https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises/${findId.users_id}`,
         findId
       )
       .then((response) => {
         let ExerciseID = Object.values(response.data)[1];
         axios
-          .get("https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/max")
+          .get("https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/max")
           .then((response) => {
             graphFilter(response.data, ExerciseID);
           })
@@ -102,7 +101,7 @@ export default function Chart({ user }) {
 
   function userExerciseArray(user_id) {
     axios
-      .get("https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises")
+      .get("https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises")
       .then((response) => {
         let result = response.data
           .filter((obj) => obj.users_id === user_id)

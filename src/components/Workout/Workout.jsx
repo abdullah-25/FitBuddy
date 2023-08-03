@@ -91,7 +91,7 @@ export default function Workout({ user }) {
       console.log("user?", !!user);
       axios
         .post(
-          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/userid",
+          "https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/userid",
           data
         )
         .then((resp) => {
@@ -122,7 +122,7 @@ export default function Workout({ user }) {
 
       axios
         .put(
-          `https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises/${userID}`,
+          `https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises/${userID}`,
           findId
         )
         .then((createResponse) => {
@@ -137,7 +137,7 @@ export default function Workout({ user }) {
 
           axios
             .post(
-              "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/max",
+              "https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/max",
               objToSend
             )
             .then((response) => {
@@ -153,34 +153,6 @@ export default function Workout({ user }) {
     });
   }
 
-  // // Function to update the max weight in the backend
-  // function updateWeight(exercises_id, max_weight) {
-  //   return axios
-  //     .post("http://localhost:8080/api/max", {
-  //       exercises_id,
-  //       max_weight,
-  //     })
-  //     .then((updateMaxWeightResponse) => {
-  //       console.log("Max weight updated:", updateMaxWeightResponse.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error updating max weight:", error.message);
-  //     });
-  // }
-  // function findExerciseId(users_id, exercise_name) {
-  //   return axios
-  //     .post("http://localhost:8080/api/exercises/id", {
-  //       users_id,
-  //       exercise_name,
-  //     })
-  //     .then((response) => {
-  //       return response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error getting exercise ID:", error.message);
-  //     });
-  // }
-
   // Updated PostExercises function
   function PostExercises(exerciseOptions, result) {
     exerciseOptions.forEach((exercise) => {
@@ -193,7 +165,7 @@ export default function Workout({ user }) {
 
       axios
         .post(
-          "https://fitbuddy-abdullah-ffca2d0de5a2.herokuapp.com/api/exercises",
+          "https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises",
           exerciseObject
         )
         .then((createResponse) => {
