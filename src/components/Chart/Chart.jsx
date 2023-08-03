@@ -22,7 +22,7 @@ export default function Chart({ user }) {
   const shareUrl = window.location.href;
   const chartRef = React.createRef();
 
-  const apikey = "http://localhost:8080";
+  const apikey = "https://fitbuddy-abdullah-abc7cdf7ff34.herokuapp.com";
 
   const name = user.email;
 

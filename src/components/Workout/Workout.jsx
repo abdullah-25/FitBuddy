@@ -34,7 +34,7 @@ export default function Workout({ user }) {
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [userID, setUserID] = useState(null);
-  const apikey = "http://localhost:8080";
+  const apikey = "https://fitbuddy-abdullah-abc7cdf7ff34.herokuapp.com";
 
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
