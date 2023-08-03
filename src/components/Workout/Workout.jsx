@@ -1,92 +1,46 @@
 import {
-  useControllableState,
-  useDisclosure,
-  Input,
-  Button,
-  Text,
-} from "@chakra-ui/react";
-
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-
-import { useState, useEffect } from "react";
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+import { Spinner } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import SaveBtn from "../SaveBtn/SaveBtn";
+import React from "react";
+import "../../components/Chart/Chart.scss";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import * as htmlToImage from "html-to-image";
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 
-import DarkModeNavBar from "../../components/DarkModeNavBar/DarkModeNavBar";
-import "./Workout.scss";
-import Exercise from "../Exercise/Exercise";
-
-const initialExerciseList = [];
-
-export default function Workout({ user }) {
-  const [startWorkoutBtnClick, setstartWorkoutBtnClick] =
-    useControllableState(false);
-  const [nameExcercise, setNameExcercise] = useControllableState("");
-  const [displayExcercise, setDisplayExcercise] = useControllableState(false);
-  const [showSaveButton, setShowSaveButton] = useState(false);
-  const [userID, setUserID] = useState(null);
-  console.log(userID);
-
-  const modal1 = useDisclosure();
-  const modal2 = useDisclosure();
-
-  const [exerciseList, setExerciseList] = useState(initialExerciseList);
-  const [result, setResult] = useState([]);
-
-  const exerciseOptions = Object.keys(result);
-
+export default function Chart({ user }) {
+  const [data, setData] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState("");
-  const handleExerciseChange = (event) => {
-    setSelectedExercise(event.target.value);
-  };
+  const [ExercisesArray, setResultUserExercisesArray] = useState([]);
+  const [userID, setUserID] = useState(null);
+  const shareUrl = window.location.href;
+  const chartRef = React.createRef();
 
-  function handleNameExcercise(e) {
-    const name = e.target.value;
-    setNameExcercise(name);
-  }
+  const name = user.email;
 
-  function handleSavebtn() {
-    setDisplayExcercise(!displayExcercise);
-    setExerciseList([...exerciseList, nameExcercise]);
-  }
-
-  function SaveWorkout() {
-    setstartWorkoutBtnClick(!startWorkoutBtnClick);
-  }
-  function discardWorkout() {
-    alert("Do you want to discard your session?");
-    setExerciseList([]);
-  }
-  function SaveWorkoutSession() {
-    alert("Your Workout session is saved!!");
-    handleResultObject(result);
-    handleCheckIconClick();
-  }
-
-  function handleResultObject(result) {
-    const updatedResult = { ...result };
-    Object.keys(updatedResult).forEach(function (exercise) {
-      const maxWeight = Math.max(...updatedResult[exercise]);
-      updatedResult[exercise] = maxWeight;
+  function handleData(r) {
+    const some = r.map((item) => {
+      const originalDate = new Date(item.created_at);
+      const options = { month: "long", day: "numeric" };
+      const formatter = new Intl.DateTimeFormat("en-US", options);
+      const formattedDate = formatter.format(originalDate);
+      return { name: formattedDate, max_weight: item.max_weight };
     });
-    setResult(updatedResult);
-    PostExercises(exerciseOptions, result);
+    return some;
   }
-  console.log("user?", !!user);
   function getUserId() {
+    const data = {
+      user_name: user.email,
+    };
     if (!!user) {
-      const data = {
-        user_name: user.email,
-      };
       console.log("user?", !!user);
       axios
         .post(
@@ -94,9 +48,7 @@ export default function Workout({ user }) {
           data
         )
         .then((resp) => {
-          console.log(resp.data);
           setUserID(resp.data.id);
-          console.log("response is:", resp.data.id);
         })
         .catch((err) => {
           console.log(err);
@@ -105,196 +57,129 @@ export default function Workout({ user }) {
   }
 
   useEffect(() => {
-    // Check if the user prop is available and not an empty object
-    if (user && Object.keys(user).length > 0) {
-      getUserId();
+    axios
+      .get(`https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/max`)
+      .then(() => {})
+      .catch((response) => {
+        console.log("Error:", response);
+      });
+
+    getUserId();
+  }, []);
+
+  useEffect(() => {
+    if (!!userID) {
+      userExerciseArray(userID);
+      handleSelect();
     }
-  }, [user]);
+  }, [selectedExercise, userID]);
 
-  function PostMaxWeight(result) {
-    Object.keys(result).forEach(function (key) {
-      const findId = { users_id: userID, exercise_name: key };
-      const max_weight = parseInt(result[key]);
-
-      axios
-        .put(
-          `https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises/${userID}`,
-          findId
-        )
-        .then((createResponse) => {
-          // const { message } = createResponse.data;
-
-          const data = createResponse.data;
-
-          const objToSend = {
-            exercises_id: data.exercises_id,
-            max_weight: max_weight,
-          };
-
-          axios
-            .post(
-              "https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/max",
-              objToSend
-            )
-            .then((response) => {
-              console.log("Data sent to server:", response.data);
-            })
-            .catch((error) => {
-              console.log(`Error sending data to server: ${error.message}`);
-            });
-        })
-        .catch((error) => {
-          console.log(`Error finding ID: ${error.message}`);
-        });
-    });
+  function handleSelect() {
+    //update users_id to be dynamic
+    const findId = { users_id: userID, exercise_name: selectedExercise };
+    axios
+      .put(
+        `https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises/${findId.users_id}`,
+        findId
+      )
+      .then((response) => {
+        let ExerciseID = Object.values(response.data)[1];
+        axios
+          .get("https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/max")
+          .then((response) => {
+            graphFilter(response.data, ExerciseID);
+          })
+          .catch((response) => {
+            console.log("Error:", response);
+          });
+      });
   }
 
-  // Updated PostExercises function
-  function PostExercises(exerciseOptions, result) {
-    exerciseOptions.forEach((exercise) => {
-      const exerciseObject = {
-        users_id: userID,
-        exercise_name: exercise,
-      };
-
-      console.log(exerciseObject);
-
-      axios
-        .post(
-          "https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises",
-          exerciseObject
-        )
-        .then((createResponse) => {
-          PostMaxWeight(result);
-        })
-        .catch((error) => {
-          PostMaxWeight(result);
-          console.log(
-            `Error inserting exercise "${exercise}": ${error.message}`
-          );
-        });
-    });
+  function graphFilter(response, id) {
+    const result = response.filter((obj) => obj.exercises_id === id);
+    setData(handleData(result));
   }
 
-  function handleCheckIconClick() {
-    setShowSaveButton(!showSaveButton);
+  function userExerciseArray(user_id) {
+    axios
+      .get("https://fitbuddy-abdullah-f7cf3cbdeb0d.herokuapp.com/api/exercises")
+      .then((response) => {
+        let result = response.data
+          .filter((obj) => obj.users_id === user_id)
+          .map((item) => item.exercise_name);
+
+        setResultUserExercisesArray([...new Set(result)]);
+      });
   }
 
-  function handleAddExcercise() {
-    return (
-      <>
-        <Button onClick={modal1.onOpen} colorScheme="teal" size="md">
-          Add Exercise
-        </Button>
+  function getAverageWeight() {
+    const totalWeight = data.reduce((acc, entry) => acc + entry.max_weight, 0);
+    const averageWeight = totalWeight / data.length;
+    return averageWeight.toFixed(2);
+  }
 
-        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Add Exercise</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody></ModalBody>
+  function getMinWeight() {
+    const minWeight = Math.min(...data.map((entry) => entry.max_weight));
+    return minWeight;
+  }
 
-            <ModalFooter>
-              <Button
-                colorScheme="teal"
-                mr={3}
-                onClick={() => {
-                  modal2.onOpen();
-                  modal1.onClose();
-                }}
-              >
-                Create New
-              </Button>
-              <Button variant="ghost" onClick={modal1.onClose}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-
-        <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Create Exercise</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text mb="8px">Name:</Text>
-              <Input
-                value={nameExcercise}
-                onChange={handleNameExcercise}
-                size="sm"
-              />
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="teal" mr={3} onClick={modal2.onClose}>
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  modal2.onClose();
-                  handleSavebtn();
-                }}
-                variant="ghost"
-              >
-                Save
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    );
+  function getMaxWeight() {
+    const maxWeight = Math.max(...data.map((entry) => entry.max_weight));
+    return maxWeight;
   }
 
   return (
-    <>
-      <DarkModeNavBar />
-      <div className="workout">
-        <div className="workout__heading">Workout</div>
-        <div className="workout__btns">
-          {startWorkoutBtnClick ? (
-            <Button
-              onClick={() => {
-                SaveWorkout();
-                discardWorkout();
-              }}
-              colorScheme="teal"
-              size="md"
-              variant="outline"
-              className="workout__btns--discard"
-            >
-              Discard
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                SaveWorkout();
-              }}
-              colorScheme="teal"
-              size="md"
-            >
-              Start Workout
-            </Button>
-          )}
+    <div className="chart-container" ref={chartRef}>
+      <Select
+        value={selectedExercise}
+        onChange={(e) => {
+          setSelectedExercise(e.target.value);
+        }}
+        placeholder="Select an Exercise"
+        className="chart-container__select"
+      >
+        {ExercisesArray.map((exerciseName) => (
+          <option key={exerciseName} value={exerciseName}>
+            {exerciseName}
+          </option>
+        ))}
+      </Select>
 
-          {startWorkoutBtnClick && handleAddExcercise()}
-        </div>
-        {showSaveButton && <SaveBtn SaveWorkoutSession={SaveWorkoutSession} />}
-        <div className="workout__background">
-          {exerciseList.map((item) => {
-            return (
-              <Exercise
-                name={item}
-                exerciseList={exerciseList}
-                onCheckIconClick={handleCheckIconClick}
-                SaveWorkoutSession={SaveWorkoutSession}
-                result={result}
-                setResult={setResult}
-              />
-            );
-          })}
-        </div>
+      <AreaChart
+        width={300}
+        height={300}
+        data={data}
+        margin={{
+          top: 40,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+        className="chart"
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name"></XAxis>
+        <YAxis />
+        <Tooltip />
+        <Area
+          type="monotone"
+          dataKey="max_weight"
+          stroke="#008080"
+          fill="#008080"
+        />
+      </AreaChart>
+
+      <div className="data-insights">
+        <p>Average Weight: {getAverageWeight()} lbs</p>
+        <p>Minimum Weight: {getMinWeight()} lbs</p>
+        <p>Maximum Weight: {getMaxWeight()} lbs</p>
       </div>
-    </>
+
+      <ShareButton
+        shareUrl={shareUrl}
+        quote="Check out my workout progress on FitBuddy!"
+        twitterMessage="Check out my workout progress on FitBuddy!"
+      />
+    </div>
   );
 }
