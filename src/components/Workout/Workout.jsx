@@ -34,6 +34,7 @@ export default function Workout({ user }) {
   const [displayExcercise, setDisplayExcercise] = useControllableState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [userID, setUserID] = useState(null);
+  console.log(userID);
 
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
@@ -42,8 +43,6 @@ export default function Workout({ user }) {
   const [result, setResult] = useState([]);
 
   const exerciseOptions = Object.keys(result);
-  const params = useParams();
-  let { id } = params;
 
   const [selectedExercise, setSelectedExercise] = useState("");
   const handleExerciseChange = (event) => {
@@ -82,7 +81,7 @@ export default function Workout({ user }) {
     setResult(updatedResult);
     PostExercises(exerciseOptions, result);
   }
-
+  console.log("user?", !!user);
   function getUserId() {
     if (!!user) {
       const data = {
@@ -106,14 +105,11 @@ export default function Workout({ user }) {
   }
 
   useEffect(() => {
-    getUserId();
-  }, [user]);
-
-  useEffect(() => {
-    if (userID) {
+    // Check if the user prop is available and not an empty object
+    if (user && Object.keys(user).length > 0) {
+      getUserId();
     }
-    //move this function inside getUserID to pass in the correct ID
-  }, [selectedExercise, userID]);
+  }, [user]);
 
   function PostMaxWeight(result) {
     Object.keys(result).forEach(function (key) {
