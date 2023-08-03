@@ -13,8 +13,6 @@ import axios from "axios";
 import React from "react";
 import "../../components/Chart/Chart.scss";
 import ShareButton from "../../components/ShareButton/ShareButton";
-import * as htmlToImage from "html-to-image";
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 
 export default function Chart({ user }) {
   const [data, setData] = useState([]);
