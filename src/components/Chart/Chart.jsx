@@ -26,6 +26,28 @@ export default function Chart({ user }) {
 
   const name = user.email;
 
+  function handleSignup() {
+    const data = {
+      email: user.email,
+    };
+    axios
+      .post(`${apikey}/signup`, data)
+      .then((response) => {
+        console.log(response.data);
+        // User created or already exists, you can handle this as needed
+      })
+      .catch((error) => {
+        console.log("Error creating user:", error);
+      });
+  }
+
+  useEffect(() => {
+    // Call the handleSignup function when the component mounts to check if the user needs to be created
+    if (user && user.email) {
+      handleSignup();
+    }
+  }, [user]);
+
   function handleData(r) {
     const some = r.map((item) => {
       const originalDate = new Date(item.created_at);
@@ -61,7 +83,9 @@ export default function Chart({ user }) {
         console.log("Error:", response);
       });
 
-    getUserId();
+    if (user && user.email) {
+      getUserId();
+    }
   }, []);
 
   useEffect(() => {
