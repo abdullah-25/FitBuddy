@@ -90,6 +90,7 @@ export default function Workout({ user }) {
         user_name: user.email,
       };
       console.log("user?", !!user);
+      console.log("user data: ", data);
       axios
         .post(`${apikey}/userid`, data)
         .then((resp) => {
