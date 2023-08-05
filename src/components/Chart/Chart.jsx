@@ -11,7 +11,7 @@ import { Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
-
+import "../../components/Chart/Chart.scss";
 export default function Chart({ user }) {
   const [data, setData] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState("");
@@ -189,11 +189,11 @@ export default function Chart({ user }) {
         <p>Maximum Weight: {getMaxWeight()} lbs</p>
       </div>
 
-      <ShareButton
+      {/* <ShareButton
         shareUrl={shareUrl}
         quote="Check out my workout progress on FitBuddy!"
         twitterMessage="Check out my workout progress on FitBuddy!"
-      />
+      /> */}
     </div>
   );
 }
