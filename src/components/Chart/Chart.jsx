@@ -189,11 +189,11 @@ export default function Chart({ user }) {
         <p>Maximum Weight: {getMaxWeight()} lbs</p>
       </div>
 
-      {/* <ShareButton
+      <ShareButton
         shareUrl={shareUrl}
         quote="Check out my workout progress on FitBuddy!"
         twitterMessage="Check out my workout progress on FitBuddy!"
-      /> */}
+      />
     </div>
   );
 }
