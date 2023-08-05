@@ -20,7 +20,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import SaveBtn from "../SaveBtn/SaveBtn";
-import "../../components/Chart/Chart.scss";
+
 
 import DarkModeNavBar from "../../components/DarkModeNavBar/DarkModeNavBar";
 import "./Workout.scss";
