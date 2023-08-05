@@ -8,16 +8,18 @@ import {
 } from "recharts";
 import { Spinner } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/react";
+import "../../components/Chart/Chart.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
 import "../../components/Chart/Chart.scss";
+
 export default function Chart({ user }) {
   const [data, setData] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState("");
   const [ExercisesArray, setResultUserExercisesArray] = useState([]);
   const [userID, setUserID] = useState(null);
-  const shareUrl = window.location.href;
+
   const chartRef = React.createRef();
 
   const apikey = "https://fitbuddy-abdullah-abc7cdf7ff34.herokuapp.com";
@@ -189,7 +191,7 @@ export default function Chart({ user }) {
         <p>Maximum Weight: {getMaxWeight()} lbs</p>
       </div>
 
-      {/* <ShareButton
+      {/*       <ShareButton
         shareUrl={shareUrl}
         quote="Check out my workout progress on FitBuddy!"
         twitterMessage="Check out my workout progress on FitBuddy!"
