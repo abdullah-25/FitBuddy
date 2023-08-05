@@ -93,8 +93,9 @@ export default function Workout({ user }) {
       axios
         .post(`${apikey}/userid`, data)
         .then((resp) => {
-          console.log(resp.data);
+          console.log("data response fron userid post request: ", resp.data);
           setUserID(resp.data.id);
+          console.log("state of user now: ", user);
           console.log("response is:", resp.data.id);
         })
         .catch((err) => {
@@ -107,11 +108,11 @@ export default function Workout({ user }) {
     getUserId();
   }, [user]);
 
-  useEffect(() => {
-    if (userID) {
-    }
-    //move this function inside getUserID to pass in the correct ID
-  }, [selectedExercise, userID]);
+  // useEffect(() => {
+  //   if (userID) {
+  //   }
+  //   //move this function inside getUserID to pass in the correct ID
+  // }, [selectedExercise, userID]);
 
   function PostMaxWeight(result) {
     Object.keys(result).forEach(function (key) {
