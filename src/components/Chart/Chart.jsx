@@ -8,6 +8,7 @@ import {
 } from "recharts";
 import { Spinner } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/react";
+import "../../components/Chart/Chart.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
@@ -189,11 +190,11 @@ export default function Chart({ user }) {
         <p>Maximum Weight: {getMaxWeight()} lbs</p>
       </div>
 
-      <ShareButton
+{/*       <ShareButton
         shareUrl={shareUrl}
         quote="Check out my workout progress on FitBuddy!"
         twitterMessage="Check out my workout progress on FitBuddy!"
-      />
+      /> */}
     </div>
   );
 }
