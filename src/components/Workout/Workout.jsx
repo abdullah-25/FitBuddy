@@ -113,7 +113,7 @@ export default function Workout({ user }) {
     //move this function inside getUserID to pass in the correct ID
   }, [selectedExercise, userID]);
 
-  function PostMaxWeight(result, users_id, exercise_name) {
+  function PostMaxWeight(result) {
     Object.keys(result).forEach(function (key) {
       const findId = { users_id: userID, exercise_name: key };
       const max_weight = parseInt(result[key]);
@@ -157,13 +157,10 @@ export default function Workout({ user }) {
       axios
         .post(`${apikey}/api/exercises`, exerciseObject)
         .then((createResponse) => {
-          PostMaxWeight(
-            result,
-            exerciseObject.users_id,
-            exerciseObject.exercise_name
-          );
+          PostMaxWeight(result);
         })
         .catch((error) => {
+          PostMaxWeight(result);
           console.log(
             `Error inserting exercise "${exercise}": ${error.message}`
           );
