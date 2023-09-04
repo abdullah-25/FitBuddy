@@ -76,14 +76,15 @@ export default function Workout({ user }) {
   }
 
   function handleResultObject(result) {
-    const updatedResult = { ...result };
-    Object.keys(updatedResult).forEach(function (exercise) {
-      const maxWeight = Math.max(...updatedResult[exercise]);
-      updatedResult[exercise] = maxWeight;
-    });
-    setResult(updatedResult);
-    PostExercises(exerciseOptions, result);
-  }
+  const updatedResult = { ...result };
+  Object.keys(updatedResult).forEach(function (exercise) {
+    const exerciseWeights = updatedResult[exercise].map(Number); // Convert strings to numbers
+    const maxWeight = Math.max(...exerciseWeights);
+    updatedResult[exercise] = maxWeight;
+  });
+  setResult(updatedResult);
+  PostExercises(exerciseOptions, updatedResult); // Send the updated result
+}
 
   function getUserId() {
     if (!!user) {
