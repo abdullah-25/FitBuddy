@@ -10,6 +10,7 @@ import {
 import { MinusIcon, CheckIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import Exercise from "../Exercise/Exercise";
+import "../../components/ExerciseInputField/ExerciseInputField.scss";
 
 export default function ({
   onCheckIconClick,

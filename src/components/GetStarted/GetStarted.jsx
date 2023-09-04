@@ -8,10 +8,15 @@ export default function GetStarted() {
     <div className="container">
       <img src={logo} alt="logo" className="container__img" />
       <h1>Welcome to FitBuddy</h1>
-      <p>Start your journey now!</p>
+      <p>Keep Track of Your Gym's Progress</p>
       <Link to="/signup">
         <Button colorScheme="teal" variant="solid" mt={10} mr={2}>
           Get Started
+        </Button>
+      </Link>
+      <Link to="/signin">
+        <Button colorScheme="teal" variant="outline" mt={10} mr={3}>
+          Log In
         </Button>
       </Link>
     </div>

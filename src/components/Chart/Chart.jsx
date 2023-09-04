@@ -131,6 +131,7 @@ export default function Chart({ user }) {
   function getAverageWeight() {
     const totalWeight = data.reduce((acc, entry) => acc + entry.max_weight, 0);
     const averageWeight = totalWeight / data.length;
+    console.log(averageWeight);
     return averageWeight.toFixed(2);
   }
 
