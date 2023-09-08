@@ -41,12 +41,23 @@ export default function Chart({ user }) {
       });
   }
 
-  useEffect(() => {
-    // Call the handleSignup function when the component mounts to check if the user needs to be created
+  function fetchData() {
     if (user && user.email) {
-      handleSignup();
+      handleSignup(); // Move handleSignup logic here
+      getUserId(); // Move getUserId logic here
     }
+  }
+
+  useEffect(() => {
+    fetchData();
   }, [user]);
+
+  // useEffect(() => {
+  //   // Call the handleSignup function when the component mounts to check if the user needs to be created
+  //   if (user && user.email) {
+  //     handleSignup();
+  //   }
+  // }, [user]);
 
   function handleData(r) {
     const some = r.map((item) => {
@@ -62,8 +73,8 @@ export default function Chart({ user }) {
     const data = {
       user_name: user.email,
     };
-    if (!!user) {
-      console.log("user?", !!user);
+    if (user) {
+      //console.log("user?", user);
       axios
         .post(`${apikey}/userid`, data)
         .then((resp) => {
@@ -83,9 +94,9 @@ export default function Chart({ user }) {
         console.log("Error:", response);
       });
 
-    if (user && user.email) {
-      getUserId();
-    }
+    // if (user && user.email) {
+    //   getUserId();
+    // }
     if (userID) {
       userExerciseArray(userID);
       handleSelect();
