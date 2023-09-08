@@ -6,26 +6,34 @@
 }
 /* GetStarted.scss */
 
+/* GetStarted.scss */
+
 .container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: white;
-  //background: linear-gradient(to bottom right, #00b4d8, #48cae4);
+  justify-content: space-between;
+  &__img {
+    width: 200px;
+  }
 }
 
-.container__img {
-  width: 200px;
-  animation: logoAnimation 2s infinite alternate;
+.center-content {
+  flex-grow: 1; /* Allow the content to take up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  text-align: center;
 }
 
-@keyframes logoAnimation {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-10px);
-  }
+.container__btns {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center buttons horizontally */
 }
