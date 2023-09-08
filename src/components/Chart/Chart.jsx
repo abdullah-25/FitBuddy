@@ -41,12 +41,12 @@ export default function Chart({ user }) {
       });
   }
 
-  useEffect(() => {
-    // Call the handleSignup function when the component mounts to check if the user needs to be created
-    if (user && user.email) {
-      handleSignup();
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   // Call the handleSignup function when the component mounts to check if the user needs to be created
+  //   if (user && user.email) {
+  //     handleSignup();
+  //   }
+  // }, [user]);
 
   function handleData(r) {
     const some = r.map((item) => {
@@ -75,25 +75,37 @@ export default function Chart({ user }) {
     }
   }
 
-  useEffect(() => {
-    axios
-      .get(`${apikey}/api/max`)
-      .then(() => {})
-      .catch((response) => {
-        console.log("Error:", response);
-      });
+  useEffect(
+    () => {
+      axios
+        .get(`${apikey}/api/max`)
+        .then(() => {})
+        .catch((response) => {
+          console.log("Error:", response);
+        });
 
-    if (user && user.email) {
-      getUserId();
-    }
-  }, []);
+      if (user && user.email) {
+        getUserId();
+      }
+      if (userID) {
+        userExerciseArray(userID);
+        handleSelect();
+      }
+      if (user && user.email) {
+        handleSignup();
+      }
+    },
+    [],
+    [user],
+    [selectedExercise, userID]
+  );
 
-  useEffect(() => {
-    if (!!userID) {
-      userExerciseArray(userID);
-      handleSelect();
-    }
-  }, [selectedExercise, userID]);
+  // useEffect(() => {
+  //   if (!!userID) {
+  //     userExerciseArray(userID);
+  //     handleSelect();
+  //   }
+  // }, [selectedExercise, userID]);
 
   function handleSelect() {
     //update users_id to be dynamic
