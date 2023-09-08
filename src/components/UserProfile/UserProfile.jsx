@@ -1,7 +1,7 @@
 import DarkModeNavBar from "../DarkModeNavBar/DarkModeNavBar";
 //import Chart from "../../components/Chart/Chart";
 import React, { lazy, Suspense } from "react";
-import Spinner from "../../components/Spinner/Spinner";
+import { Spinner } from "@chakra-ui/react";
 
 export default function UserProfile({ user }) {
   const LazyChart = lazy(() => import("../../components/Chart/Chart"));
