@@ -122,7 +122,8 @@ export default function Chart({ user }) {
     axios.get(`${apikey}/api/exercises`).then((response) => {
       let result = response.data
         .filter((obj) => obj.users_id === user_id)
-        .map((item) => item.exercise_name);
+        .map((item) => item.exercise_name)
+        .sort();
 
       setResultUserExercisesArray([...new Set(result)]);
     });

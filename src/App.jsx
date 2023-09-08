@@ -8,22 +8,23 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Workout from "./components/Workout/Workout";
 import { auth } from "./Firebase/Firebase"; // Import your firebase authentication module
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function App() {
   const [user, setUser] = useState();
   // Check if a user is already authenticated (e.g., on page reload)
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log("User", user);
       setUser(user);
     });
     // Unsubscribe the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
-  if (user === undefined) {
-    return <h1>Loading!!!!</h1>;
-  }
+  // if (user === undefined) {
+  //   return <h1>Loading</h1>;
+  // }
 
   return (
     <ChakraProvider>
