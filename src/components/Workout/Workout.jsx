@@ -21,7 +21,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import SaveBtn from "../SaveBtn/SaveBtn";
 
-
 import DarkModeNavBar from "../../components/DarkModeNavBar/DarkModeNavBar";
 import "./Workout.scss";
 import Exercise from "../Exercise/Exercise";
@@ -76,30 +75,29 @@ export default function Workout({ user }) {
   }
 
   function handleResultObject(result) {
-  const updatedResult = { ...result };
-  Object.keys(updatedResult).forEach(function (exercise) {
-    const exerciseWeights = updatedResult[exercise].map(Number); // Convert strings to numbers
-    const maxWeight = Math.max(...exerciseWeights);
-    updatedResult[exercise] = maxWeight;
-  });
-  setResult(updatedResult);
-  PostExercises(exerciseOptions, updatedResult); // Send the updated result
-}
+    const updatedResult = { ...result };
+    Object.keys(updatedResult).forEach(function (exercise) {
+      const exerciseWeights = updatedResult[exercise].map(Number); // Convert strings to numbers
+      const maxWeight = Math.max(...exerciseWeights);
+      updatedResult[exercise] = maxWeight;
+    });
+    setResult(updatedResult);
+    PostExercises(exerciseOptions, updatedResult); // Send the updated result
+  }
 
   function getUserId() {
     if (!!user) {
       const data = {
         user_name: user.email,
       };
-      console.log("user?", !!user);
-      console.log("user data: ", data);
+
       axios
         .post(`${apikey}/userid`, data)
         .then((resp) => {
-          console.log("data response fron userid post request: ", resp.data);
+          //console.log("data response fron userid post request: ", resp.data);
           setUserID(resp.data.id);
-          console.log("state of user now: ", user);
-          console.log("response is:", resp.data.id);
+          // console.log("state of user now: ", user);
+          // console.log("response is:", resp.data.id);
         })
         .catch((err) => {
           console.log("error is: ", err);

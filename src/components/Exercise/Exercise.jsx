@@ -44,7 +44,7 @@ export default function Exercise({
             variant="outline"
             size="xs"
           >
-            {<DeleteIcon />}
+            {/* {<DeleteIcon />} */}
           </Button>
         </div>
       </div>
