@@ -97,10 +97,10 @@ export default function Chart({ user }) {
     // if (user && user.email) {
     //   getUserId();
     // }
-    if (userID) {
-      userExerciseArray(userID);
-      handleSelect();
-    }
+    // if (userID) {
+    //   userExerciseArray(userID);
+    //   handleSelect();
+    // }
   }, []);
 
   useEffect(() => {
