@@ -27,7 +27,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSignUp(e) {
+  function handleSignUp() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
@@ -116,7 +116,7 @@ export default function Signup() {
                   _hover={{
                     bg: "teal.500",
                   }}
-                  onClick={handleSignUp()}
+                  onClick={handleSignUp}
                 >
                   Sign up
                 </Button>
