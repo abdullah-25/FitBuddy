@@ -30,8 +30,8 @@ const initialExerciseList = [];
 export default function Workout({ user }) {
   const [startWorkoutBtnClick, setstartWorkoutBtnClick] =
     useControllableState(false);
-  const [nameExcercise, setNameExcercise] = useControllableState("");
-  const [displayExcercise, setDisplayExcercise] = useControllableState(false);
+  const [nameExercise, setNameExercise] = useControllableState("");
+  const [displayExercise, setDisplayExercise] = useControllableState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [userID, setUserID] = useState(null);
   const apikey = "https://fitbuddy-abdullah-abc7cdf7ff34.herokuapp.com";
@@ -51,14 +51,14 @@ export default function Workout({ user }) {
     setSelectedExercise(event.target.value);
   };
 
-  function handleNameExcercise(e) {
+  function handleNameExercise(e) {
     const name = e.target.value;
-    setNameExcercise(name);
+    setNameExercise(name);
   }
 
   function handleSavebtn() {
-    setDisplayExcercise(!displayExcercise);
-    setExerciseList([...exerciseList, nameExcercise]);
+    setDisplayExercise(!displayExercise);
+    setExerciseList([...exerciseList, nameExercise]);
   }
 
   function SaveWorkout() {
@@ -174,7 +174,7 @@ export default function Workout({ user }) {
     setShowSaveButton(!showSaveButton);
   }
 
-  function handleAddExcercise() {
+  function handleAddExercise() {
     return (
       <>
         <Button onClick={modal1.onOpen} colorScheme="teal" size="md">
@@ -214,8 +214,8 @@ export default function Workout({ user }) {
             <ModalBody>
               <Text mb="8px">Name:</Text>
               <Input
-                value={nameExcercise}
-                onChange={handleNameExcercise}
+                value={nameExercise}
+                onChange={handleNameExercise}
                 size="sm"
               />
             </ModalBody>
@@ -271,7 +271,7 @@ export default function Workout({ user }) {
             </Button>
           )}
 
-          {startWorkoutBtnClick && handleAddExcercise()}
+          {startWorkoutBtnClick && handleAddExercise()}
         </div>
         {showSaveButton && <SaveBtn SaveWorkoutSession={SaveWorkoutSession} />}
         <div className="workout__background">
