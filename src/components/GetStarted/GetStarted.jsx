@@ -1,6 +1,6 @@
 import logo from "../../assets/logo/logo.png";
 import "../../components/GetStarted/GetStarted.scss";
-import { Button, Stack } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export default function GetStarted() {
