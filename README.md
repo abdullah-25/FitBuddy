@@ -29,9 +29,9 @@ cd FitBuddy
    
 npm install
 
-3. Start the development server:
+3. Start the development server using the `dev` script:
 
-npm start
+npm run dev
 
 
 The app will be running at `http://localhost:3000/`.
